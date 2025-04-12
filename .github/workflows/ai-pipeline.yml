@@ -1,0 +1,64 @@
+name: AI Pipeline
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  niche-research:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        run: sudo apt-get update && sudo apt-get install -y python3-pip
+      - name: Install Dependencies
+        run: pip3 install pytrends transformers torch
+      - name: Discover Niches
+        run: |
+          python3 - << 'PYCODE'
+          from niche_agent import discover_top_niches
+          niches = discover_top_niches(5)
+          import json
+          with open("data/niches.json","w") as f:
+              json.dump(niches,f)
+          PYCODE
+      - name: Commit Niches
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: update niches"
+
+  generate-articles:
+    needs: niche-research
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Python
+        run: sudo apt-get update && sudo apt-get install -y python3-pip
+      - name: Install Dependencies
+        run: pip3 install transformers torch
+      - name: Generate Articles
+        run: |
+          python3 - << 'PYCODE'
+          from content_agent import generate_articles
+          import json
+          niches = json.load(open("data/niches.json"))
+          generate_articles(niches, count=4)
+          PYCODE
+      - name: Commit Drafts
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: add article drafts"
+
+  publish-site:
+    needs: generate-articles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Site
+        run: hugo --minify
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
