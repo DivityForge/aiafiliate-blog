@@ -1,3 +1,7 @@
+baseURL = "https://divityforge.github.io/aiafiliate-blog/"
+languageCode = "en-us"
+title = "AIFiliate"
 theme = "ananke"
+
 [outputs]
   home = ["HTML", "RSS"]
