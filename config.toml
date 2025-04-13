@@ -1,1 +1,3 @@
 theme = "ananke"
+[outputs]
+  home = ["HTML", "RSS"]
