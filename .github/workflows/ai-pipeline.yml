@@ -21,25 +21,23 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Hugo
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y hugo
-
       - name: Install Python dependencies
         run: pip install pytrends transformers torch
+
+      - name: Setup Hugo (extended)
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.146.2'
+          extended: true
 
       - name: Generate Niches & Articles
         run: |
           python3 - << 'PYCODE'
-          # 1. Discover niches
           from niche_agent import discover_top_niches
           import json
           niches = discover_top_niches(5)
           with open("data/niches.json","w") as f:
               json.dump(niches, f)
-
-          # 2. Generate articles
           from content_agent import generate_articles
           generate_articles(niches, count=4)
           PYCODE
