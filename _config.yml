@@ -1,8 +1,7 @@
 title: AIFiliate
-description: This is the AIFiliate blog. AI generates niche articles weekly.
-baseurl: ""
-url: "https://divityforge.github.io"
+description: This is the AIFiliate blog. Here AI generates niche articles automatically each week.
 theme: minima
 
+# Optional: use GitHub Pages-friendly plugins
 plugins:
   - jekyll-feed
