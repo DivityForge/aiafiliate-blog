@@ -5,3 +5,7 @@ theme: minima
 # Optional: use GitHub Pages-friendly plugins
 plugins:
   - jekyll-feed
+
+# ✅ Required to compile SCSS!
+sass:
+  style: compressed
