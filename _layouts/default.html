@@ -3,9 +3,20 @@
   <head>
     <meta charset="UTF-8">
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/style.css">
   </head>
   <body>
-    {{ content }}
+    <header>
+      <h1><a href="{{ "/" | relative_url }}">AIFiliate</a></h1>
+    </header>
+
+    <main>
+      {{ content }}
+    </main>
+
+    <footer>
+      <p>&copy; {{ site.time | date: "%Y" }} AIFiliate Blog</p>
+    </footer>
   </body>
 </html>
