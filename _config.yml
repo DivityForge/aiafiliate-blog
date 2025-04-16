@@ -2,10 +2,15 @@ title: AIFiliate
 description: This is the AIFiliate blog. Here AI generates niche articles automatically each week.
 theme: minima
 
-# Optional: use GitHub Pages-friendly plugins
+# GitHub Pages-compatible plugins
 plugins:
   - jekyll-feed
 
-# ✅ Required to compile SCSS!
+# Required to compile SCSS
 sass:
   style: compressed
+
+# ✅ Enables blog post rendering
+collections:
+  posts:
+    output: true
